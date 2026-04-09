@@ -213,7 +213,6 @@
             margin-bottom: 18px;
         }
 
-        /* Отзывы */
         .reviews-grid {
             display: flex;
             flex-wrap: wrap;
@@ -293,7 +292,6 @@
             color: white;
         }
 
-        /* Форма отзыва */
         .review-form-container {
             background: rgba(18, 18, 26, 0.6);
             backdrop-filter: blur(8px);
@@ -374,7 +372,6 @@
             margin: 20px 0;
             text-align: center;
             border: 1px dashed #22c55e;
-            display: none;
         }
 
         .admin-panel input {
@@ -502,11 +499,10 @@
 
     <h2 class="section-title">Наши воркеры <span style="color:#FFD166">довольны профитом</span> 🌹</h2>
     <div id="reviewsContainer" class="reviews-grid">
-        <!-- Здесь будут отзывы -->
+        <div style="text-align: center; color: #6c7a8e;">Загрузка отзывов...</div>
     </div>
 
-    <!-- Панель администратора (появляется после ввода пароля) -->
-    <div id="adminPanel" class="admin-panel">
+    <div class="admin-panel">
         <h4>🔐 Панель администратора</h4>
         <input type="password" id="adminPassword" placeholder="Введите пароль">
         <button onclick="checkAdminPassword()">Войти</button>
@@ -516,7 +512,6 @@
         </div>
     </div>
 
-    <!-- Форма добавления отзыва -->
     <div class="review-form-container">
         <h3>📝 Оставить отзыв</h3>
         <form id="reviewForm">
@@ -573,54 +568,30 @@
 </div>
 
 <script>
-    // ========== НАСТРОЙКИ TELEGRAM БОТА ==========
-    // ЗАМЕНИТЕ ЭТИ ДАННЫЕ НА СВОИ!
-    const BOT_TOKEN = "8752707540:AAF2eZe26eOSsQfXN6dO4zACI0cjpxPqUhU";       // Токен от @BotFather
-    const ADMIN_ID = "8217349547";        // Ваш Telegram ID (цифры)
-    // ===========================================
-    
-    // Пароль для панели администратора на сайте (придумайте свой)
+    // ========== НАСТРОЙКИ (УЖЕ ВСТАВЛЕНЫ) ==========
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxts2cOkx3m4wzRgvR-IozZqunpap3dIy_BaK2yr7KF0qa3AfOHXz7eCOS5eUJUCoLK/exec";
     const ADMIN_PANEL_PASSWORD = "admin123";
     
     let isAdmin = false;
+    // ================================================
     
-    // Загружаем отзывы из localStorage
-    let reviews = [];
-    
-    function loadReviews() {
-        const saved = localStorage.getItem("rose_team_reviews");
-        if (saved) {
-            reviews = JSON.parse(saved);
-        } else {
-            // Стартовые отзывы
-            reviews = [
-                {
-                    id: Date.now() + 1,
-                    name: "megasuxariki",
-                    text: "С Rose Team Ton профит стабильный уже 3 месяц. Мануал чёткий, ребята толковые. Всем советую!",
-                    date: new Date().toLocaleDateString()
-                },
-                {
-                    id: Date.now() + 2,
-                    name: "podpivas_axxxxxx",
-                    text: "Лучшая команда для заработка. Наставник Xanami всегда поможет. Профит радует!",
-                    date: new Date().toLocaleDateString()
-                }
-            ];
-            saveReviews();
+    // Загрузка отзывов с сервера
+    async function loadReviews() {
+        try {
+            const response = await fetch(SCRIPT_URL + "?action=get");
+            const reviews = await response.json();
+            renderReviews(reviews);
+        } catch (error) {
+            console.error("Ошибка загрузки отзывов:", error);
+            document.getElementById("reviewsContainer").innerHTML = '<p style="text-align: center; color: #ff6a88;">Ошибка загрузки отзывов. Попробуйте позже.</p>';
         }
-        renderReviews();
     }
     
-    function saveReviews() {
-        localStorage.setItem("rose_team_reviews", JSON.stringify(reviews));
-    }
-    
-    function renderReviews() {
+    function renderReviews(reviews) {
         const container = document.getElementById("reviewsContainer");
         if (!container) return;
         
-        if (reviews.length === 0) {
+        if (!reviews || reviews.length === 0) {
             container.innerHTML = '<p style="text-align: center; color: #6c7a8e;">Пока нет отзывов. Будьте первым!</p>';
             return;
         }
@@ -654,55 +625,40 @@
         return div.innerHTML;
     }
     
-    // Отправка отзыва в Telegram
-    async function sendReviewToTelegram(name, text) {
-        if (BOT_TOKEN === "YOUR_BOT_TOKEN" || ADMIN_ID === "YOUR_ADMIN_ID") {
-            console.log("Бот не настроен. Отзыв сохранён локально.");
-            return false;
-        }
-        
-        const message = `🌹 НОВЫЙ ОТЗЫВ 🌹\n\n👤 Ник: ${name}\n📝 Текст: ${text}\n\n➡️ Чтобы опубликовать, добавьте его вручную в код или напишите /publish`;
-        
-        const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
-        
+    // Отправка отзыва на модерацию
+    async function sendReviewForModeration(name, text) {
         try {
-            const response = await fetch(url, {
+            const response = await fetch(SCRIPT_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    chat_id: ADMIN_ID,
-                    text: message,
-                    parse_mode: 'HTML'
-                })
+                body: JSON.stringify({ action: "new", name: name, text: text })
             });
-            return response.ok;
+            const result = await response.json();
+            return result.success;
         } catch (error) {
-            console.error("Ошибка отправки в Telegram:", error);
+            console.error("Ошибка отправки:", error);
             return false;
         }
     }
     
-    // Добавление отзыва (сразу публикуется)
-    function addReview(name, text) {
-        const newReview = {
-            id: Date.now(),
-            name: name.trim(),
-            text: text.trim(),
-            date: new Date().toLocaleDateString()
-        };
-        reviews.unshift(newReview); // новый отзыв в начало
-        saveReviews();
-        renderReviews();
-    }
-    
-    function deleteReview(id) {
+    async function deleteReview(id) {
         if (!isAdmin) {
             alert("Только администратор может удалять отзывы");
             return;
         }
-        reviews = reviews.filter(r => r.id !== id);
-        saveReviews();
-        renderReviews();
+        
+        if (confirm("Удалить этот отзыв?")) {
+            try {
+                await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: "delete", id: id })
+                });
+                loadReviews();
+            } catch (error) {
+                console.error("Ошибка удаления:", error);
+            }
+        }
     }
     
     function checkAdminPassword() {
@@ -713,7 +669,7 @@
             isAdmin = true;
             adminControls.style.display = "block";
             passwordInput.value = "";
-            renderReviews(); // перерисовываем с кнопками удаления
+            loadReviews();
             alert("Вы вошли как администратор. Теперь вы можете удалять отзывы (кнопка ❌)");
         } else {
             alert("Неверный пароль");
@@ -735,17 +691,17 @@
             return;
         }
         
-        // Отправляем в Telegram (если настроен)
-        const sent = await sendReviewToTelegram(name, text);
+        reviewStatus.style.color = "#ffb347";
+        reviewStatus.innerText = "⏳ Отправка...";
+        
+        const sent = await sendReviewForModeration(name, text);
         
         if (sent) {
             reviewStatus.style.color = "#22c55e";
             reviewStatus.innerText = "✅ Спасибо! Ваш отзыв отправлен на модерацию. После проверки он появится на сайте.";
         } else {
-            // Если бот не настроен, публикуем сразу
-            addReview(name, text);
-            reviewStatus.style.color = "#22c55e";
-            reviewStatus.innerText = "✅ Спасибо! Ваш отзыв опубликован.";
+            reviewStatus.style.color = "#ff6a88";
+            reviewStatus.innerText = "❌ Ошибка отправки. Попробуйте позже.";
         }
         
         reviewForm.reset();
@@ -755,11 +711,8 @@
         }, 5000);
     });
     
-    // Инициализация
+    // Загружаем отзывы при старте
     loadReviews();
-    
-    // Показываем панель администратора (не скрываем, просто она видна)
-    document.getElementById("adminPanel").style.display = "block";
 </script>
 </body>
 </html>
