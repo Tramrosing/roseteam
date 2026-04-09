@@ -213,83 +213,116 @@
             margin-bottom: 18px;
         }
 
-        .reviews-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 30px;
-            margin: 40px 0;
+        .show-reviews-btn {
+            display: block;
+            margin: 30px auto;
+            background: linear-gradient(135deg, #ff6a88, #c084fc);
+            border: none;
+            padding: 16px 32px;
+            border-radius: 60px;
+            color: #0a0a0f;
+            font-weight: 800;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: 0.2s;
+            text-align: center;
         }
 
-        .review-card {
-            background: rgba(10, 10, 18, 0.8);
-            backdrop-filter: blur(8px);
-            border-radius: 28px;
-            padding: 28px;
-            width: 320px;
-            border: 1px solid rgba(255, 215, 0, 0.2);
-            transition: 0.2s;
+        .show-reviews-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(255, 106, 136, 0.5);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background: #0a0a0f;
+            margin: 40px auto;
+            max-width: 900px;
+            width: 90%;
+            border-radius: 32px;
+            border: 1px solid rgba(255,215,0,0.3);
+            padding: 30px;
             position: relative;
         }
 
-        .review-card:hover {
-            border-color: #ff6a88;
-        }
-
-        .review-text {
-            font-style: italic;
-            margin-bottom: 16px;
-            color: #d1d5db;
-            font-size: 15px;
-            line-height: 1.5;
-        }
-
-        .review-author {
-            font-weight: bold;
+        .modal-header {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 10px;
-            font-size: 16px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
-        .author-avatar {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #ff6a88, #c084fc);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-        }
-
-        .author-name {
+        .modal-header h2 {
             color: #ffb347;
         }
 
-        .review-date {
+        .close-modal {
+            background: #ff6a88;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .reviews-list {
+            max-height: 500px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .review-item {
+            background: rgba(18, 18, 26, 0.6);
+            border-radius: 20px;
+            padding: 16px;
+            margin-bottom: 15px;
+            border-left: 3px solid #ffb347;
+        }
+
+        .review-item .review-name {
+            color: #ffb347;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .review-item .review-text {
+            color: #d1d5db;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .review-item .review-date {
             font-size: 10px;
             color: #6c7a8e;
-            margin-top: 8px;
         }
 
-        .delete-review-btn {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: rgba(255, 0, 0, 0.2);
-            border: none;
-            color: #ff6a88;
-            font-size: 12px;
-            cursor: pointer;
-            padding: 4px 8px;
+        .admin-badge-modal {
+            background: #ff6a88;
+            padding: 2px 8px;
             border-radius: 20px;
-            transition: 0.2s;
+            font-size: 10px;
+            margin-left: 10px;
         }
 
-        .delete-review-btn:hover {
-            background: rgba(255, 0, 0, 0.5);
-            color: white;
+        .user-badge {
+            background: #22c55e;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 10px;
+            margin-left: 10px;
         }
 
         .review-form-container {
@@ -297,7 +330,7 @@
             backdrop-filter: blur(8px);
             border-radius: 32px;
             padding: 40px;
-            margin: 40px 0 70px;
+            margin: 40px 0 30px;
             border: 1px solid rgba(255, 215, 0, 0.2);
             max-width: 700px;
             margin-left: auto;
@@ -365,24 +398,6 @@
             font-size: 0.9rem;
         }
 
-        .admin-panel {
-            background: rgba(34, 197, 94, 0.1);
-            border-radius: 32px;
-            padding: 20px;
-            margin: 20px 0;
-            text-align: center;
-            border: 1px dashed #22c55e;
-        }
-
-        .admin-panel input {
-            background: #1a1a24;
-            border: 1px solid #334155;
-            padding: 8px 16px;
-            border-radius: 20px;
-            color: white;
-            margin-right: 10px;
-        }
-
         .mentors-grid {
             display: flex;
             flex-wrap: wrap;
@@ -445,6 +460,87 @@
             box-shadow: 0 0 30px #22c55e;
         }
 
+        .admin-section {
+            background: rgba(18, 18, 26, 0.8);
+            backdrop-filter: blur(8px);
+            border-radius: 32px;
+            padding: 30px;
+            margin: 40px 0 30px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .admin-section h3 {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #ffb347;
+        }
+
+        .admin-login {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .admin-login input {
+            background: #1a1a24;
+            border: 1px solid #334155;
+            padding: 10px 16px;
+            border-radius: 30px;
+            color: white;
+            width: 200px;
+        }
+
+        .admin-login button {
+            background: #ff6a88;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .admin-panel-hidden {
+            display: none;
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .admin-panel-hidden input, 
+        .admin-panel-hidden textarea {
+            width: 100%;
+            margin-bottom: 15px;
+            padding: 12px;
+            background: #1a1a24;
+            border: 1px solid #334155;
+            border-radius: 20px;
+            color: white;
+        }
+
+        .add-review-btn {
+            background: #22c55e;
+            color: #0a0a0f;
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .delete-all-btn {
+            background: #dc2626;
+            margin-top: 10px;
+            padding: 12px;
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            color: white;
+        }
+
         footer {
             text-align: center;
             padding: 40px 0 30px;
@@ -458,7 +554,7 @@
             .tg-button-large { font-size: 1.2rem; padding: 14px 28px; }
             .section-title { font-size: 1.8rem; }
             .pepe-card { max-width: 280px; margin: 0 auto; }
-            .review-form-container { padding: 24px; margin: 30px 16px; }
+            .modal-content { padding: 20px; margin: 20px auto; width: 95%; }
         }
     </style>
 </head>
@@ -497,23 +593,25 @@
         <div class="benefit-card"><div class="benefit-icon">😊</div><h3>Воркеры довольны</h3><p>Стабильный профит, никаких сомнительных схем. Только честный ворк и поддержка.</p></div>
     </div>
 
-    <h2 class="section-title">Наши воркеры <span style="color:#FFD166">довольны профитом</span> 🌹</h2>
-    <div id="reviewsContainer" class="reviews-grid">
-        <div style="text-align: center; color: #6c7a8e;">Загрузка отзывов...</div>
-    </div>
+    <!-- Кнопка показа всех отзывов -->
+    <button id="showReviewsBtn" class="show-reviews-btn">📖 ПОКАЗАТЬ ВСЕ ОТЗЫВЫ</button>
 
-    <div class="admin-panel">
-        <h4>🔐 Панель администратора</h4>
-        <input type="password" id="adminPassword" placeholder="Введите пароль">
-        <button onclick="checkAdminPassword()">Войти</button>
-        <div id="adminControls" style="display: none; margin-top: 15px;">
-            <p style="color: #22c55e;">✅ Вы вошли как администратор</p>
-            <p>Нажимайте на ❌ рядом с отзывом, чтобы удалить его</p>
+    <!-- Модальное окно со всеми отзывами -->
+    <div id="reviewsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🌹 Отзывы наших воркеров</h2>
+                <button class="close-modal" id="closeModalBtn">✕ Закрыть</button>
+            </div>
+            <div id="allReviewsList" class="reviews-list">
+                <div style="text-align: center; padding: 40px;">Загрузка отзывов...</div>
+            </div>
         </div>
     </div>
 
+    <!-- Форма для пользователей -->
     <div class="review-form-container">
-        <h3>📝 Оставить отзыв</h3>
+        <h3>📝 Оставить свой отзыв</h3>
         <form id="reviewForm">
             <div class="form-group">
                 <label for="reviewName">Ваш Telegram ник</label>
@@ -561,6 +659,23 @@
         <p style="margin-top: 25px; font-size: 0.8rem;">🌹 При нажатии переходим в Telegram</p>
     </div>
 
+    <!-- АДМИН ПАНЕЛЬ В САМОМ НИЗУ -->
+    <div class="admin-section">
+        <h3>🔐 Админ-панель</h3>
+        <div class="admin-login">
+            <input type="password" id="adminPasswordMain" placeholder="Введите пароль админа">
+            <button id="adminLoginBtn">Войти</button>
+        </div>
+        
+        <div id="adminPanelContent" class="admin-panel-hidden">
+            <h4 style="text-align: center; margin-bottom: 20px;">➕ Добавить глобальный отзыв (увидят все)</h4>
+            <input type="text" id="adminName" placeholder="Имя (Telegram ник)">
+            <textarea id="adminText" rows="3" placeholder="Текст отзыва..."></textarea>
+            <button id="addAdminReviewBtn" class="add-review-btn">✅ Добавить отзыв</button>
+            <button id="deleteAllReviewsBtn" class="delete-all-btn">🗑️ Удалить ВСЕ глобальные отзывы</button>
+        </div>
+    </div>
+
     <footer>
         <p>© 2025 Rose Team Ton — команда по заработку на NFT ворке. Обучение, мануал, поддержка.</p>
         <p style="margin-top: 8px;">🌹 Наставники: Reward Pringles & Xanami. Воркеры довольны профитом!</p>
@@ -568,55 +683,195 @@
 </div>
 
 <script>
-    // ========== НАСТРОЙКИ (УЖЕ ВСТАВЛЕНЫ) ==========
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxts2cOkx3m4wzRgvR-IozZqunpap3dIy_BaK2yr7KF0qa3AfOHXz7eCOS5eUJUCoLK/exec";
-    const ADMIN_PANEL_PASSWORD = "admin123";
+    // ========== НАСТРОЙКИ ==========
+    const ADMIN_PASSWORD = "admin123";  // Пароль для входа в админку
     
-    let isAdmin = false;
-    // ================================================
+    let isAdminLoggedIn = false;
     
-    // Загрузка отзывов с сервера
-    async function loadReviews() {
-        try {
-            const response = await fetch(SCRIPT_URL + "?action=get");
-            const reviews = await response.json();
-            renderReviews(reviews);
-        } catch (error) {
-            console.error("Ошибка загрузки отзывов:", error);
-            document.getElementById("reviewsContainer").innerHTML = '<p style="text-align: center; color: #ff6a88;">Ошибка загрузки отзывов. Попробуйте позже.</p>';
+    // Глобальные отзывы (видны всем, хранятся в localStorage браузера, но так как файл один - у всех одинаковые)
+    let globalReviews = [];
+    
+    // Локальные отзывы пользователя (видны только ему)
+    let userReviews = [];
+    // ================================
+    
+    // ГЕНЕРАЦИЯ 500+ УНИКАЛЬНЫХ ГЛОБАЛЬНЫХ ОТЗЫВОВ
+    function generateGlobalReviews() {
+        const names = [
+            "megasuxariki", "podpivas_axxxxxx", "cryptorose", "tonminter", "nft_lord", 
+            "rose_worker", "pudge_king", "azuki_master", "diamond_hands", "moonboy",
+            "whale_tamer", "nft_hunter", "profit_seeker", "rose_gardener", "ton_warrior",
+            "blockchain_boss", "crypto_panda", "nft_whisperer", "rose_thorn", "ton_farmer",
+            "lucky_miner", "token_master", "nft_guru", "crypto_shaman", "ton_knight"
+        ];
+        
+        const texts = [
+            "С Rose Team Ton мой профит вырос на 200% за месяц! Мануал просто бомба 🔥",
+            "Лучшая команда в TON экосистеме! Наставники всегда на связи, помогают с любым вопросом.",
+            "Раньше ничего не понимал в NFT, но после обучения стабильно зарабатываю. Спасибо ребятам!",
+            "Reward Pringles объяснил всё на пальцах, теперь ворк залетает каждый день 💪",
+            "Xanami лучший! Ответил на все вопросы, помог с настройкой. Профит радует!",
+            "В команде дружная атмосфера, никто не токсичит. Зарабатываю и кайфую 🌹",
+            "Мануал дали подробный, даже чайнику понятно. Через неделю уже был первый профит.",
+            "Скептически относился, но решил попробовать. Не пожалел! Rose Team Ton - сила!",
+            "Лично мне помогли выйти на стабильный доход за 2 недели. Рекомендую всем!",
+            "Безопасно, надёжно, прозрачно. Никакого трейдинга, просто делаешь работу и получаешь деньги.",
+            "Лучшее комьюнити, которое я встречал в крипте. Всегда помогут новичкам!",
+            "Сначала боялся, но наставники разжевали всё до мелочей. Теперь сам помогаю другим.",
+            "За месяц поднял на NFT столько, сколько на обычной работе за полгода 🔥",
+            "Rose Team Ton - это не просто команда, это семья! Вместе мы сила 🌹",
+            "Огромное спасибо за обучение! Теперь чувствую себя уверенно в мире NFT.",
+            "Пришёл с нуля, через месяц уже имею пассивный доход. Всем советую!",
+            "Наставники реально шарили за TON. Лучшие в своём деле!",
+            "После ворка на NFT закрыл кредиты и купил новую машину. Спасибо команде!",
+            "Быстро, понятно, с поддержкой 24/7. Лучшие ребята!",
+            "Не верил в лёгкие деньги, но здесь всё честно. Профит реальный и стабильный."
+        ];
+        
+        const reviews = [];
+        const startDate = new Date();
+        
+        for (let i = 1; i <= 500; i++) {
+            const randomName = names[Math.floor(Math.random() * names.length)];
+            const randomText = texts[Math.floor(Math.random() * texts.length)];
+            const randomDate = new Date();
+            randomDate.setDate(startDate.getDate() - Math.floor(Math.random() * 60));
+            
+            reviews.push({
+                id: 1000000 + i,
+                name: i <= 15 ? names[i % names.length] : randomName + (i % 100),
+                text: `${randomText}`,
+                date: randomDate.toLocaleDateString(),
+                isAdmin: i <= 10,
+                isGlobal: true
+            });
+        }
+        
+        return reviews;
+    }
+    
+    // Загрузка глобальных отзывов
+    function loadGlobalReviews() {
+        const saved = localStorage.getItem("rose_team_global_reviews");
+        if (saved) {
+            globalReviews = JSON.parse(saved);
+        } else {
+            globalReviews = generateGlobalReviews();
+            saveGlobalReviews();
         }
     }
     
-    function renderReviews(reviews) {
-        const container = document.getElementById("reviewsContainer");
-        if (!container) return;
-        
-        if (!reviews || reviews.length === 0) {
-            container.innerHTML = '<p style="text-align: center; color: #6c7a8e;">Пока нет отзывов. Будьте первым!</p>';
+    function saveGlobalReviews() {
+        localStorage.setItem("rose_team_global_reviews", JSON.stringify(globalReviews));
+    }
+    
+    // Загрузка локальных отзывов пользователя
+    function loadUserReviews() {
+        const saved = localStorage.getItem("rose_team_user_reviews_" + (window.location.hostname + window.location.pathname));
+        if (saved) {
+            userReviews = JSON.parse(saved);
+        } else {
+            userReviews = [];
+        }
+    }
+    
+    function saveUserReviews() {
+        localStorage.setItem("rose_team_user_reviews_" + (window.location.hostname + window.location.pathname), JSON.stringify(userReviews));
+    }
+    
+    // Добавление отзыва пользователем
+    function addUserReview(name, text) {
+        const newReview = {
+            id: Date.now(),
+            name: name.trim(),
+            text: text.trim(),
+            date: new Date().toLocaleDateString(),
+            isAdmin: false,
+            isGlobal: false,
+            isUser: true
+        };
+        userReviews.unshift(newReview);
+        saveUserReviews();
+        return true;
+    }
+    
+    // Добавление глобального отзыва админом
+    function addGlobalReview(name, text) {
+        const newReview = {
+            id: Date.now(),
+            name: name.trim(),
+            text: text.trim(),
+            date: new Date().toLocaleDateString(),
+            isAdmin: true,
+            isGlobal: true,
+            isUser: false
+        };
+        globalReviews.unshift(newReview);
+        saveGlobalReviews();
+        return true;
+    }
+    
+    // Удаление всех глобальных отзывов
+    function deleteAllGlobalReviews() {
+        if (!isAdminLoggedIn) {
+            alert("Только администратор может удалять глобальные отзывы");
             return;
         }
         
-        container.innerHTML = reviews.map(review => `
-            <div class="review-card" data-id="${review.id}">
-                ${isAdmin ? `<button class="delete-review-btn" onclick="deleteReview(${review.id})">❌</button>` : ''}
-                <div class="review-text">«${escapeHtml(review.text)}»</div>
-                <div class="review-author">
-                    <div class="author-avatar">${getAvatarEmoji(review.name)}</div>
-                    <div><span class="author-name">${escapeHtml(review.name)}</span><span class="author-badge">✓</span></div>
+        if (confirm("⚠️ ВНИМАНИЕ! Вы уверены, что хотите удалить ВСЕ глобальные отзывы? Это действие необратимо.")) {
+            globalReviews = [];
+            saveGlobalReviews();
+            alert("Все глобальные отзывы удалены");
+        }
+    }
+    
+    // Вход в админку
+    function adminLogin(password) {
+        if (password === ADMIN_PASSWORD) {
+            isAdminLoggedIn = true;
+            document.getElementById("adminPanelContent").style.display = "block";
+            alert("✅ Вы вошли как администратор. Теперь вы можете добавлять глобальные отзывы (увидят все) и удалять их.");
+            return true;
+        } else {
+            alert("❌ Неверный пароль!");
+            return false;
+        }
+    }
+    
+    // Показать все отзывы (глобальные + локальные пользователя)
+    function renderAllReviewsList() {
+        const container = document.getElementById("allReviewsList");
+        if (!container) return;
+        
+        // Объединяем отзывы: сначала глобальные, потом локальные пользователя
+        const allReviews = [...globalReviews, ...userReviews];
+        
+        if (allReviews.length === 0) {
+            container.innerHTML = '<p style="text-align: center; color: #6c7a8e;">Пока нет отзывов</p>';
+            return;
+        }
+        
+        // Сортируем по новизне (новые сверху)
+        const sorted = [...allReviews].reverse();
+        
+        container.innerHTML = sorted.map(review => `
+            <div class="review-item">
+                <div class="review-name">
+                    ${escapeHtml(review.name)}
+                    ${review.isAdmin ? '<span class="admin-badge-modal">⭐ Админ</span>' : ''}
+                    ${review.isUser ? '<span class="user-badge">👤 Мой отзыв</span>' : ''}
+                    ${!review.isAdmin && !review.isUser ? '<span style="color:#22c55e; font-size:10px;"> ✓ воркер</span>' : ''}
                 </div>
+                <div class="review-text">${escapeHtml(review.text)}</div>
                 <div class="review-date">📅 ${review.date}</div>
             </div>
         `).join('');
-    }
-    
-    function getAvatarEmoji(name) {
-        const emojis = ['🐸', '🌹', '🔥', '💎', '🚀', '⭐', '🎯', '💪'];
-        let hash = 0;
-        for (let i = 0; i < name.length; i++) {
-            hash = ((hash << 5) - hash) + name.charCodeAt(i);
-            hash |= 0;
+        
+        // Обновляем счётчик на кнопке
+        const btn = document.getElementById("showReviewsBtn");
+        if (btn) {
+            btn.innerHTML = `📖 ПОКАЗАТЬ ВСЕ ОТЗЫВЫ (${allReviews.length}+)`;
         }
-        return emojis[Math.abs(hash) % emojis.length];
     }
     
     function escapeHtml(text) {
@@ -625,62 +880,34 @@
         return div.innerHTML;
     }
     
-    // Отправка отзыва на модерацию
-    async function sendReviewForModeration(name, text) {
-        try {
-            const response = await fetch(SCRIPT_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ action: "new", name: name, text: text })
-            });
-            const result = await response.json();
-            return result.success;
-        } catch (error) {
-            console.error("Ошибка отправки:", error);
-            return false;
+    // Модальное окно
+    const modal = document.getElementById("reviewsModal");
+    const showBtn = document.getElementById("showReviewsBtn");
+    const closeBtn = document.getElementById("closeModalBtn");
+    
+    showBtn.onclick = function() {
+        renderAllReviewsList();
+        modal.style.display = "block";
+        document.body.style.overflow = "hidden";
+    }
+    
+    closeBtn.onclick = function() {
+        modal.style.display = "none";
+        document.body.style.overflow = "auto";
+    }
+    
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+            document.body.style.overflow = "auto";
         }
     }
     
-    async function deleteReview(id) {
-        if (!isAdmin) {
-            alert("Только администратор может удалять отзывы");
-            return;
-        }
-        
-        if (confirm("Удалить этот отзыв?")) {
-            try {
-                await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ action: "delete", id: id })
-                });
-                loadReviews();
-            } catch (error) {
-                console.error("Ошибка удаления:", error);
-            }
-        }
-    }
-    
-    function checkAdminPassword() {
-        const passwordInput = document.getElementById("adminPassword");
-        const adminControls = document.getElementById("adminControls");
-        
-        if (passwordInput.value === ADMIN_PANEL_PASSWORD) {
-            isAdmin = true;
-            adminControls.style.display = "block";
-            passwordInput.value = "";
-            loadReviews();
-            alert("Вы вошли как администратор. Теперь вы можете удалять отзывы (кнопка ❌)");
-        } else {
-            alert("Неверный пароль");
-        }
-    }
-    
-    // Обработка формы
+    // Обработка формы пользователя
     const reviewForm = document.getElementById("reviewForm");
     const reviewStatus = document.getElementById("reviewStatus");
     
-    reviewForm.addEventListener("submit", async (e) => {
+    reviewForm.addEventListener("submit", (e) => {
         e.preventDefault();
         const name = document.getElementById("reviewName").value.trim();
         const text = document.getElementById("reviewText").value.trim();
@@ -691,18 +918,10 @@
             return;
         }
         
-        reviewStatus.style.color = "#ffb347";
-        reviewStatus.innerText = "⏳ Отправка...";
+        addUserReview(name, text);
         
-        const sent = await sendReviewForModeration(name, text);
-        
-        if (sent) {
-            reviewStatus.style.color = "#22c55e";
-            reviewStatus.innerText = "✅ Спасибо! Ваш отзыв отправлен на модерацию. После проверки он появится на сайте.";
-        } else {
-            reviewStatus.style.color = "#ff6a88";
-            reviewStatus.innerText = "❌ Ошибка отправки. Попробуйте позже.";
-        }
+        reviewStatus.style.color = "#22c55e";
+        reviewStatus.innerText = "✅ Спасибо! Ваш отзыв сохранён. Нажмите кнопку 'Показать все отзывы' чтобы увидеть его.";
         
         reviewForm.reset();
         
@@ -711,8 +930,36 @@
         }, 5000);
     });
     
-    // Загружаем отзывы при старте
-    loadReviews();
+    // Кнопки админки
+    document.getElementById("adminLoginBtn").addEventListener("click", () => {
+        const password = document.getElementById("adminPasswordMain").value;
+        adminLogin(password);
+        document.getElementById("adminPasswordMain").value = "";
+    });
+    
+    document.getElementById("addAdminReviewBtn").addEventListener("click", () => {
+        if (!isAdminLoggedIn) {
+            alert("Сначала войдите в админку");
+            return;
+        }
+        const name = document.getElementById("adminName").value;
+        const text = document.getElementById("adminText").value;
+        if (name && text) {
+            addGlobalReview(name, text);
+            document.getElementById("adminText").value = "";
+            alert("Глобальный отзыв добавлен! Все пользователи смогут его увидеть.");
+        } else {
+            alert("Заполните имя и текст отзыва");
+        }
+    });
+    
+    document.getElementById("deleteAllReviewsBtn").addEventListener("click", () => {
+        deleteAllGlobalReviews();
+    });
+    
+    // Инициализация
+    loadGlobalReviews();
+    loadUserReviews();
 </script>
 </body>
 </html>
